@@ -15,6 +15,7 @@ class _QuizScreenState extends State<QuizScreen> {
   List<Question> ques = [];
   int currentQuestionIndex = 0;
   int score = 0;
+  bool lastQues = false;
 
   @override
   void initState() {
@@ -42,7 +43,11 @@ class _QuizScreenState extends State<QuizScreen> {
             _questionWidget(),
             _options(),
             _nextButton(),
-            _scoreCard()
+            lastQues
+                ? _scoreCard()
+                : const SizedBox(
+                    height: 20,
+                  )
           ],
         ),
       ),
@@ -86,18 +91,18 @@ class _QuizScreenState extends State<QuizScreen> {
             onPressed: () {
               if (ques[currentQuestionIndex].rightAns == 'True') {
                 score++;
-              }
+              } 
             },
             child: const Text("True"),
           ),
-          SizedBox(
+          const SizedBox(
             width: 40,
           ),
           ElevatedButton(
               onPressed: () {
                 if (ques[currentQuestionIndex].rightAns == 'False') {
                   score++;
-                }
+                } 
               },
               child: const Text("False")),
         ],
@@ -122,7 +127,7 @@ class _QuizScreenState extends State<QuizScreen> {
   }
 
   _nextButton() {
-    bool lastQues = currentQuestionIndex == ques.length - 1 ? true : false;
+    lastQues = currentQuestionIndex == ques.length - 1 ? true : false;
     return ElevatedButton(
         onPressed: () {
           if (lastQues) {
@@ -139,7 +144,7 @@ class _QuizScreenState extends State<QuizScreen> {
         child: lastQues ? const Text("Restart") : Icon(Icons.skip_next));
   }
 
-  _scoreCard() {
+  Widget _scoreCard() {
     return Container(
       margin: const EdgeInsets.all(22),
       decoration: BoxDecoration(
@@ -148,10 +153,10 @@ class _QuizScreenState extends State<QuizScreen> {
       ),
       child: Row(
         children: [
-          Padding(padding: EdgeInsets.all(50)),
+          const Padding(padding: EdgeInsets.all(50)),
           Text(
             "Score : $score",
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 24,
             ),
           ),
